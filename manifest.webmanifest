@@ -1,0 +1,9 @@
+{
+  "name": "Seeley Station Kiosk — 406 Technical Services",
+  "short_name": "SS Kiosk",
+  "start_url": "/?env=dev",
+  "display": "standalone",
+  "background_color": "#0f3d3a",
+  "theme_color": "#0f3d3a",
+  "icons": [{"src": "/logo.svg", "sizes": "512x512", "type": "image/svg+xml"}]
+}
