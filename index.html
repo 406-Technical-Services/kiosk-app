@@ -1,27 +1,47 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kiosk Access</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Seeley Station Kiosk — Internet Access</title>
+  <meta name="theme-color" content="#0f3d3a"/>
+  <link rel="stylesheet" href="./style.css"/>
 </head>
 <body>
-<div class="container">
-    <h1>Welcome to 406 Technical Services Kiosk</h1>
-    <p>Scan the QR code or click the button below to purchase 15 minutes of internet access.</p>
-    <img src="wave_qr.png" alt="Wave Payment QR Code" class="qr">
-    <a href="https://link.waveapps.com/7pyeeg-dxnad5" target="_blank" class="button">Open Payment Link</a>
-    <div class="confirm-section">
-        <label for="confirmCode">Enter Wave Confirmation Code:</label>
-        <input type="text" id="confirmCode" placeholder="e.g., ABC123">
-        <button onclick="unlockAccess()">Unlock Access</button>
-    </div>
-    <div id="session" class="hidden">
-        <p>Session Active. Time remaining: <span id="timeRemaining">15:00</span></p>
-        <iframe id="browserFrame" src="https://www.google.com" width="100%" height="600px"></iframe>
-    </div>
-</div>
-<script src="app.js"></script>
+  <main id="app">
+    <section id="locked" class="card">
+      <h1>Internet Access</h1>
+      <p>Purchase <strong>15 minutes</strong> of internet access.</p>
+
+      <div class="paybox">
+        <img src="./wave_qr.png" alt="Wave Payment QR" class="qr"/>
+        <div>
+          <p>Scan the QR code or open the payment page:</p>
+          <p><a class="btn" href="https://link.waveapps.com/7pyeeg-dxnad5" target="_blank" rel="noopener">Open Payment Link</a></p>
+          <p class="muted small">Payment is processed by Wave. You will receive a confirmation code after payment.</p>
+        </div>
+      </div>
+
+      <div class="entry">
+        <label for="code">Enter Wave confirmation code:</label>
+        <input id="code" type="text" inputmode="latin" autocomplete="one-time-code" placeholder="e.g., ABC123" />
+        <button id="unlockBtn" disabled>Start 15-minute Session</button>
+        <p class="muted tiny">First iteration uses manual code entry. Staff may verify the code visually.</p>
+      </div>
+    </section>
+
+    <section id="unlocked" class="card hidden">
+      <div class="topbar">
+        <h1>Session Active</h1>
+        <div class="timer">Time left: <span id="timeLeft">15:00</span></div>
+      </div>
+      <p class="muted small">A browsing window has opened. When time expires, it will close automatically and this screen will reset.</p>
+      <div class="actions">
+        <button id="endNow" class="ghost">End Session Now</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="./app.js"></script>
 </body>
 </html>
