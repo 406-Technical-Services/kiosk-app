@@ -28,11 +28,33 @@ UNLOCK_BTN.addEventListener('click', () => {
 });
 
 function startSession() {
-  // Open a new browsing window/tab to feel like "the internet turned on"
-  browsingWindow = window.open('https://www.google.com', '_blank');
+  // Try to open the browsing window
+  let child = null;
+  try {
+    child = window.open('https://www.google.com', '_blank'); // or your start page
+    if (child) child.focus();
+  } catch (_) {}
+
   // Show unlocked UI + timer
   LOCKED.classList.add('hidden');
   UNLOCKED.classList.remove('hidden');
+
+  // If the popup was blocked, show a big “Open Browser Now” button
+  if (!child || child.closed) {
+    const btn = document.createElement('button');
+    btn.className = 'btn';
+    btn.textContent = 'Open Browser Now';
+    btn.onclick = () => {
+      browsingWindow = window.open('https://www.google.com', '_blank');
+      if (browsingWindow) browsingWindow.focus();
+      btn.remove();
+    };
+    document.querySelector('.actions').prepend(btn);
+  } else {
+    browsingWindow = child;
+  }
+
+  // Start the 15-min timer
   const end = Date.now() + DURATION_MS;
   countdown = setInterval(() => {
     const left = end - Date.now();
@@ -40,10 +62,11 @@ function startSession() {
     if (left <= 0) {
       clearInterval(countdown);
       tryCloseBrowser();
-      location.reload(); // back to payment screen
+      location.reload();
     }
   }, 1000);
 }
+
 
 function tryCloseBrowser() {
   // You can close a window you opened, even if cross-origin
